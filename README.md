@@ -30,4 +30,6 @@ minimax. It searches only the branches of a tree that are
 important, so the program complexity becomes twice easier.
 Then I compared the results of the algorithms.
 
-![picture](img/abc.png)
+Some of the results: 
+
+![picture](results.png)
