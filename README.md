@@ -29,3 +29,5 @@ Alpha-beta pruning is more effective algorithm compared to
 minimax. It searches only the branches of a tree that are
 important, so the program complexity becomes twice easier.
 Then I compared the results of the algorithms.
+
+![picture](img/abc.png)
