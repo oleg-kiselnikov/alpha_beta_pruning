@@ -1,6 +1,12 @@
 C:\Repository\Southampton2\ABPruning\YustinaIvanova\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
-C:\Repository\Southampton2\ABPruning\YustinaIvanova\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
 C:\Repository\Southampton2\ABPruning\YustinaIvanova\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
 C:\Repository\Southampton2\ABPruning\YustinaIvanova\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
 C:\Repository\Southampton2\ABPruning\YustinaIvanova\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
 C:\Repository\Southampton2\ABPruning\YustinaIvanova\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
+C:\Repository\Southampton2\ABPruning\YustinaIvanova\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
+C:\Repository\2018-01-09\ABPruning\YustinaIvanova\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+C:\Repository\2018-01-09\ABPruning\YustinaIvanova\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+C:\Repository\2018-01-09\ABPruning\YustinaIvanova\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb
+C:\Repository\2018-01-09\ABPruning\YustinaIvanova\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+C:\Repository\2018-01-09\ABPruning\YustinaIvanova\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+C:\Repository\2018-01-09\ABPruning\YustinaIvanova\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache

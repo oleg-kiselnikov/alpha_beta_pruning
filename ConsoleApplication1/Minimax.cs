@@ -8,6 +8,8 @@ namespace ConsoleApplication1
 {
     public class Minimax
     {
+        public int VisitedStatesCounter;
+        
         public State CurrentState;
 
         public State ResultState;
@@ -15,7 +17,7 @@ namespace ConsoleApplication1
         public int MaxDepth;
 
         public bool MinimizeLoss;
-
+        
         public Minimax(State currentState, bool minimizeLoss = true, int maxDepth = 3)
         {
             CurrentState = currentState;
@@ -26,62 +28,58 @@ namespace ConsoleApplication1
         }
         public void Execute()
         {
+            VisitedStatesCounter = 0;
+
             int depth = MaxDepth; // 1;
 
             if (MinimizeLoss)
-            {
-                int maxValue = int.MinValue;
-
-                foreach (var nextState in CurrentState.Successors)
-                {
-                    //iterative deepening
-                    //for (; depth < MaxDepth; depth += 2)
-                    {
-                        int x = MinValue(nextState, depth);
-
-                        if (x > maxValue)
-                        {
-                            maxValue = x;
-
-                            ResultState = nextState;
-                        }
-                    }                    
-                }
-            } 
-            else
             {
                 int minValue = int.MaxValue;
 
                 foreach (var nextState in CurrentState.Successors)
                 {
-                    //iterative deepening
-                    //for (; depth < MaxDepth; depth += 2)
+                    int x = MaxValue(nextState, depth);
+
+                    if (x < minValue)
                     {
-                        int x = MaxValue(nextState, depth);
+                        minValue = x;
 
-                        if (x < minValue)
-                        {
-                            minValue = x;
-
-                            ResultState = nextState;
-                        }
+                        ResultState = nextState;
                     }
                 }
+            } 
+            else
+            {
+                int maxValue = int.MinValue + 1;
+
+                foreach (var nextState in CurrentState.Successors)
+                {
+                    int x = MinValue(nextState, depth);
+
+                    if (x > maxValue)
+                    {
+                        maxValue = x;
+
+                        ResultState = nextState;
+                    }
+                }                
             }            
         }
         private int MaxValue(State state, int depth)
         {
-            if (depth == 0 || state.IsEnd)
+            VisitedStatesCounter++;
+
+            if (depth == 0 || state.IsEnd || !state.Successors.Any())
                 return state.Value;
 
-            int bestValue = int.MinValue;
+            int bestValue = int.MinValue + 1;
             
             foreach (var nextState in state.Successors)
             {
-                var x = MinValue(nextState, depth - 1);
+                var v = MinValue(nextState, depth - 1);
 
-                if (bestValue < x)
-                    bestValue = x;
+                if (v > bestValue)
+                    bestValue = v;
             }
 
             return bestValue;
@@ -89,17 +87,19 @@ namespace ConsoleApplication1
 
         private int MinValue(State state, int depth)
         {
-            if (depth == 0)
+            VisitedStatesCounter++;
+
+            if (depth == 0 || state.IsEnd || !state.Successors.Any())
                 return state.Value;
 
             int bestValue = int.MaxValue;
             
             foreach (var nextState in state.Successors)
             {
-                var x = MaxValue(nextState, depth - 1);
+                var v = MaxValue(nextState, depth - 1);
 
-                if (x < bestValue)
-                    bestValue = x;
+                if (v < bestValue)
+                    bestValue = v;
             }
 
             return bestValue;

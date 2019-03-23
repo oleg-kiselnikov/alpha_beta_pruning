@@ -89,26 +89,160 @@ namespace ConsoleApplication1
 
         public override int Value
         {
-            get 
-            {                
-                var x = 0;
-
-                for (int i = 0; i < RowCount; i++)
-                {
-                    x += Eval(Row(i));
-                }
-
-                for (int i = 0; i < ColCount; i++)
-                {
-                    x += Eval(Column(i));
-                }
-
-                x += Eval(Diagonal1);
-
-                x += Eval(Diagonal2);
-                
-                return x; 
+            get
+            {
+                //return Heuristic1();
+                return Heuristic2();
+                //return Heuristic3();
             }
+        }
+
+        /// <summary>
+        /// Heuristic 1
+        /// </summary>
+        /// <returns>
+        ///  1 - Winning  
+        /// -1 - Losing
+        ///  0 - Other game states
+        /// </returns>
+        private int Heuristic1()
+        {
+            int v;
+
+            for (int i = 0; i < RowCount; i++)
+            {
+                v = Eval(Row(i));
+
+                if (v == RowCount)
+                    return 1;
+
+                if (-v == RowCount)
+                    return -1;
+            }
+
+            for (int i = 0; i < ColCount; i++)
+            {
+                v = Eval(Column(i));
+
+                if (v == ColCount)
+                    return 1;
+
+                if (-v == ColCount)
+                    return -1;
+            }
+
+            v = Eval(Diagonal1);
+
+            if (v == Size)
+                return 1;
+
+            if (-v == Size)
+                return -1;
+
+            v = Eval(Diagonal2);
+
+            if (v == Size)
+                return 1;
+
+            if (-v == Size)
+                return -1;
+
+            return 0; 
+        }
+
+        /// <summary>
+        /// Heuristic 2
+        /// </summary>
+        /// <returns>
+        ///     Difference of numbers of potential lines for 
+        /// for a player and an opponent:
+        /// 
+        ///  [Current player's lines] - [Opponent's lines]
+        /// </returns>
+        private int Heuristic2()
+        {
+            int v;
+
+            int result = 0;
+
+            for (int i = 0; i < RowCount; i++)
+            {
+                v = Eval(Row(i));
+
+                if (v > 1)
+                    result++;
+
+                if (-v > 1)
+                    result--;
+            }
+
+            for (int i = 0; i < ColCount; i++)
+            {
+                v = Eval(Column(i));
+
+                if (v > 1)
+                    result++;
+
+                if (-v > 1)
+                    result--;
+            }
+
+            v = Eval(Diagonal1);
+
+            if (v > 1)
+                result++;
+
+            if (-v > 1)
+                result--;
+
+            v = Eval(Diagonal2);
+
+            if (v > 1)
+                result++;
+
+            if (-v > 1)
+                result--;
+
+            return result; 
+        }
+
+        /// <summary>
+        /// Heuristic 3
+        /// </summary>
+        /// <returns>
+        ///     Difference of numbers of signs in potential 
+        ///  lines for a player and an opponent:
+        /// 
+        ///  [Current player's signs] - [Opponent's signs]
+        /// </returns>
+        private int Heuristic3()
+        {
+            int v;
+            var x = 0;
+
+            for (int i = 0; i < RowCount; i++)
+            {
+                v = Eval(Row(i));
+
+                x += v;
+            }
+
+            for (int i = 0; i < ColCount; i++)
+            {
+                v = Eval(Column(i));
+
+                x += v;
+            }
+
+            v = Eval(Diagonal1);
+
+            x += v;
+
+            v = Eval(Diagonal2);
+
+            x += v;
+
+            return x; 
         }
 
         public bool? _isEnd;
@@ -162,6 +296,16 @@ namespace ConsoleApplication1
                 return GetSuccessors();
             }
         }
+
+        /// <summary>
+        /// Counts number of noughts or crosses 
+        /// </summary>
+        /// <param name="line"></param>
+        /// <returns> 
+        /// 0 - line contains noughts and crosses
+        /// n - line contains only signs of current player (noughts)
+        /// -n - line contains only signs of opponent player (crosses)
+        /// </returns>
         private int Eval(IEnumerable<string> line)
         {
             int p = 0, n = 0;
@@ -240,6 +384,9 @@ namespace ConsoleApplication1
         private IEnumerable<State> GetSuccessors()
         {
             var states = new List<State>();
+
+            if (IsEnd)
+                yield break;
 
             for (int i = 0; i < RowCount; i++)
             {

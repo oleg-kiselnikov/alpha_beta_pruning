@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -9,6 +10,7 @@ namespace ConsoleApplication1
 {
     public sealed class Game
     {
+        public int VisitedStatesCounter;
         public int BoardSize { get; private set; }
 
         public GameState CurrentState { get; private set; }
@@ -31,9 +33,11 @@ namespace ConsoleApplication1
         {
             InvokeResponseEvent(GameResult.GameStarted);
 
+            VisitedStatesCounter = 0;
+
             int stepsCounter = 1;
 
-            int maxDepth = BoardSize * BoardSize;
+            int maxDepth = 4;//BoardSize * BoardSize;
             
             while (!CurrentState.IsEnd && CurrentState.Successors.Any())
             {
@@ -59,19 +63,37 @@ namespace ConsoleApplication1
                     //Task.Delay(TimeSpan.FromSeconds(0.75)).Wait();
 
                     var algorythm =
-                        //new Minimax(CurrentState, minimizeLoss: true, depth:maxDepth);
-                        new AlphaBetaPruning(CurrentState, minimizeLoss: true, depth: maxDepth);
+                        //new Minimax(CurrentState, minimizeLoss: true, maxDepth: maxDepth);
+                        new AlphaBetaPruning(CurrentState, minimizeLoss: true, maxDepth: maxDepth);
 
+                    if (algorythm is Minimax)
+                        Console.WriteLine("Minimax");
+
+                    if (algorythm is AlphaBetaPruning)
+                        Console.WriteLine("Alpha-Beta pruning");
+
+                    Console.WriteLine("Max depth: {0}", algorythm.MaxDepth);
+
+                    var stopwatch = Stopwatch.StartNew();
+                    
                     algorythm.Execute();
+
+                    stopwatch.Stop();
+
+                    Console.WriteLine("Elapsed time: {0}", stopwatch.Elapsed);
+
+                    Console.WriteLine("Visited states number: {0}", algorythm.VisitedStatesCounter);
+
+                    VisitedStatesCounter += algorythm.VisitedStatesCounter;
 
                     CurrentState = (GameState)algorythm.ResultState;
                 }
 
                 stepsCounter++;
 
-                maxDepth--;
+                //maxDepth--;
 
-                InvokeResponseEvent(GameResult.StateChanged);
+                InvokeResponseEvent(GameResult.StateChanged);                
             }
 
             if (!CurrentState.IsEnd)
@@ -81,7 +103,10 @@ namespace ConsoleApplication1
             else
                 InvokeResponseEvent(GameResult.PlayerWon);
 
-            Task.Delay(TimeSpan.FromSeconds(2)).Wait();
+            Console.WriteLine("Visited states number: {0}", VisitedStatesCounter);
+            
+            Console.ReadKey();
+            //Task.Delay(TimeSpan.FromSeconds(2)).Wait();
         }
 
         public string ErrorMessage { get; set; }

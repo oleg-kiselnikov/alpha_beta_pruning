@@ -1,0 +1,6 @@
+/home/smart/Documents/Foundation of AI/negamax/ConsoleApplication1/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/smart/Documents/Foundation of AI/negamax/ConsoleApplication1/bin/Debug/ConsoleApplication1.exe.config
+/home/smart/Documents/Foundation of AI/negamax/ConsoleApplication1/bin/Debug/ConsoleApplication1.pdb
+/home/smart/Documents/Foundation of AI/negamax/ConsoleApplication1/bin/Debug/ConsoleApplication1.exe
+/home/smart/Documents/Foundation of AI/negamax/ConsoleApplication1/obj/Debug/ConsoleApplication1.exe
+/home/smart/Documents/Foundation of AI/negamax/ConsoleApplication1/obj/Debug/ConsoleApplication1.pdb

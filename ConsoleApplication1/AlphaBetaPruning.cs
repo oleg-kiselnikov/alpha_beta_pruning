@@ -1,38 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ConsoleApplication1
+﻿namespace ConsoleApplication1
 {
     class AlphaBetaPruning
     {
+        public int VisitedStatesCounter;
+
         public State CurrentState;
 
         public State ResultState;
 
-        public int Depth;
+        public int MaxDepth;
 
         public bool MinimizeLoss;
 
-        public AlphaBetaPruning(State currentState, bool minimizeLoss = true, int depth = 3)
+        public AlphaBetaPruning(State currentState, bool minimizeLoss = true, int maxDepth = 8)
         {
             CurrentState = currentState;
 
-            Depth = depth;
+            MaxDepth = maxDepth;
 
             MinimizeLoss = minimizeLoss;
         }
         public void Execute()
         {
+            VisitedStatesCounter = 0;
+
             if (MinimizeLoss)
             {
-                int maxValue = int.MinValue;
+                int maxValue = int.MinValue + 1;
 
                 foreach (var nextState in CurrentState.Successors)
                 {
-                    int x = AlphaBeta(nextState, int.MinValue, int.MaxValue, Depth);
+                    int x = AlphaBeta(nextState, int.MinValue + 1, int.MaxValue, MaxDepth);
 
                     if (x > maxValue)
                     {
@@ -48,7 +46,7 @@ namespace ConsoleApplication1
 
                 foreach (var nextState in CurrentState.Successors)
                 {
-                    int x = - AlphaBeta(nextState, int.MinValue, int.MaxValue, Depth);
+                    int x = -AlphaBeta(nextState, int.MaxValue, int.MinValue + 1, MaxDepth);
 
                     if (x < minValue)
                     {
@@ -61,6 +59,8 @@ namespace ConsoleApplication1
         }
         private int AlphaBeta(State state, int a, int b, int depth)
         {
+            VisitedStatesCounter++;
+
             if (depth == 0 || state.IsEnd)
                 return state.Value;
 
